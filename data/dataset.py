@@ -25,7 +25,7 @@ class AdditionalModule(Dataset):
 
         final = torch.cat([
             torch.tensor(index_x, dtype=torch.int64).unsqueeze(0),
-            torch.tensor(index_x, dtype=torch.int64).unsqueeze(0),
+            torch.tensor(index_y, dtype=torch.int64).unsqueeze(0),
             torch.tensor(self.dim+1, dtype=torch.int64).unsqueeze(0),
         ], dim=0)
 
