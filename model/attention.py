@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import math
 
 class MHA(nn.Module):
     def __init__(self, d_model, num_head, dropout):
