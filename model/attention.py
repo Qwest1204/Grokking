@@ -3,7 +3,15 @@ import torch.nn as nn
 import math
 
 class MHA(nn.Module):
-    def __init__(self, d_model, num_head, dropout):
+    def __init__(self, d_model:int, num_head:int, dropout:int):
+        """
+        $$
+        Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
+        $$
+        :param d_model:
+        :param num_head:
+        :param dropout:
+        """
         super().__init__()
         self.d_model = d_model
         self.num_head = num_head
