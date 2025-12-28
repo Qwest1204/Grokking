@@ -1,4 +1,4 @@
-from data.dataset import AdditionalModule
+from data.dataset import ModularAdditionDataset
 
 import torch
 import torch.nn as nn
@@ -16,7 +16,7 @@ DROPOUT = 0.1
 NUM_HEAD = 4
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-dataset = AdditionalModule(DIM)
+dataset = ModularAdditionDataset(DIM)
 train, test = torch.utils.data.random_split(dataset, [5000, 4409])
 dataloader_train = DataLoader(train, batch_size=BATCH_SIZE, shuffle=True)
 dataloader_test = DataLoader(test, batch_size=BATCH_SIZE, shuffle=True)

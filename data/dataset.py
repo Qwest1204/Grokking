@@ -1,35 +1,46 @@
 import torch
 from torch.utils.data import Dataset
 
-class AdditionalModule(Dataset):
-    def __init__(self, dim):
-        self.dim = dim
-        self.data = self.prepare_data()
+
+class ModularAdditionDataset(Dataset):
+    """
+    Dataset for (x + y) mod p task
+    Все возможные пары x, y от 0 до p-1
+    """
+
+    def __init__(self, p=97, equal_token=None):
+        """
+        Args:
+            p: modulo value
+            equal_token: token for '=', если None, то p
+        """
+        self.p = p
+        self.equal_token = equal_token if equal_token is not None else p
+
+        # Создаем матрицу всех возможных пар и их результатов
+        self.x_coords = torch.arange(p).repeat(p)  # [0,1,2,...,p-1, 0,1,2,...]
+        self.y_coords = torch.arange(p).repeat_interleave(p)  # [0,0,...,0, 1,1,...,1, ...]
+
+        # Вычисляем результаты
+        self.results = (self.x_coords + self.y_coords) % p
 
     def __len__(self):
-        return self.dim ** 2
-
-
-    def prepare_data(self):
-        data = torch.zeros((self.dim, self.dim), dtype=torch.int64)
-        for x in range(self.dim):
-            for y in range(self.dim):
-                data[y][x] = (x + y) % self.dim
-        return data
+        return self.p * self.p
 
     def __getitem__(self, idx):
-        index_y = idx // self.dim
-        index_x = idx % self.dim
+        """
+        Returns:
+            input_seq: [x, y, =] - последовательность из 3 токенов
+            target: результат (x + y) % p
+        """
+        x = self.x_coords[idx].long()
+        y = self.y_coords[idx].long()
+        result = self.results[idx].long()
 
-        value = self.data[index_y][index_x].long()
+        # Входная последовательность: [x, y, =]
+        input_seq = torch.tensor([x, y, self.equal_token], dtype=torch.long)
 
-        final = torch.cat([
-            torch.tensor(index_x, dtype=torch.int64).unsqueeze(0),
-            torch.tensor(index_y, dtype=torch.int64).unsqueeze(0),
-            torch.tensor(self.dim+1, dtype=torch.int64).unsqueeze(0),
-        ], dim=0)
+        # Целевое значение
+        target = torch.tensor([result], dtype=torch.long)
 
-        return (
-            torch.tensor(value, dtype=torch.int64).unsqueeze(0),
-            final
-        )
+        return target, input_seq
