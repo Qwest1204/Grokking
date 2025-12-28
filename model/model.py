@@ -16,6 +16,7 @@ class GrokkingTransformer(nn.Module):
         self.pe = PositionalEncoding(d_model, max_len=4)
         self.norm1 = LayerNormalization()
         self.norm2 = LayerNormalization()
+        self.dropout = nn.Dropout(dropout)
         self.projection = ProjectionLayer(d_model, vocab_size)
 
     def forward(self, x):
