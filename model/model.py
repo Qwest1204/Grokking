@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from attention import MHA
-from modules import MLP, ProjectionLayer, ResidualConnection, InputEmbedding
+from model.attention import MHA
+from model.modules import MLP, ProjectionLayer, ResidualConnection, InputEmbedding
 
 class GrokkingTransformer(nn.Module):
     """
