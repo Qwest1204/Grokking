@@ -9,15 +9,6 @@ class AdditionalModule(Dataset):
     def __len__(self):
         return self.dim ** 2
 
-    def one_hot(self, x):
-        out = torch.zeros(self.dim+1, dtype=torch.int64)
-        out[x] = 1.0
-        return out
-
-    def equals_tensor(self):
-        out = torch.zeros(self.dim+1, dtype=torch.int64)
-        out[-1] = 1.0
-        return out
 
     def prepare_data(self):
         data = torch.zeros((self.dim, self.dim), dtype=torch.int64)
@@ -33,12 +24,12 @@ class AdditionalModule(Dataset):
         value = self.data[index_y][index_x].long()
 
         final = torch.cat([
-            self.one_hot(index_x).unsqueeze(0),
-            self.one_hot(index_y).unsqueeze(0),
-            self.equals_tensor().unsqueeze(0),
+            torch.tensor(index_x, dtype=torch.int64).unsqueeze(0),
+            torch.tensor(index_x, dtype=torch.int64).unsqueeze(0),
+            torch.tensor(self.dim+1, dtype=torch.int64).unsqueeze(0),
         ], dim=0)
 
         return (
-            self.one_hot(value).unsqueeze(0),
+            torch.tensor(value, dtype=torch.int64).unsqueeze(0),
             final
         )
