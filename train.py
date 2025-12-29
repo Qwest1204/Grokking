@@ -225,7 +225,7 @@ def train_with_logging(transformer, dataloader_train, dataloader_test,
             # Вычисляем лосс-ландшафт
             X, Y, Z = compute_loss_landscape(
                 transformer, criterion, dataloader_train,
-                device, steps=loss_landscape_steps, range_scale=1.0
+                device, steps=loss_landscape_steps, range_scale=10.0
             )
 
             # Создаем визуализации
