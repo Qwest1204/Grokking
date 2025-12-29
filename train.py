@@ -37,7 +37,7 @@ optimizer = torch.optim.AdamW(
     )
 
 criterion = nn.CrossEntropyLoss()
-scheduler = CosineAnnealingLR(optimizer, T_max=100)
+scheduler = CosineAnnealingLR(optimizer, T_max=10000)
 
 import torch
 from torch.utils.tensorboard import SummaryWriter
@@ -164,7 +164,7 @@ trained_model = train_with_logging(
         dataloader_test=dataloader_test,
         optimizer=optimizer,
         criterion=criterion,
-        num_epochs=100,
+        num_epochs=10000,
         device=DEVICE
     )
 
