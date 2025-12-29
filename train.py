@@ -9,15 +9,15 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 
 DIM = 97
 BATCH_SIZE = 16
-MODEL_DIM = 128
+MODEL_DIM = 64
 VOCAB = 98
-D_FF = 512
-DROPOUT = 0.1
+D_FF = 1024
+DROPOUT = 0.05
 NUM_HEAD = 4
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 dataset = ModularAdditionDataset(DIM)
-train, test = torch.utils.data.random_split(dataset, [2000, 7409])
+train, test = torch.utils.data.random_split(dataset, [500, 8909])
 dataloader_train = DataLoader(train, batch_size=BATCH_SIZE, shuffle=True)
 dataloader_test = DataLoader(test, batch_size=BATCH_SIZE, shuffle=True)
 
@@ -30,8 +30,8 @@ transformer = GrokkingTransformer(d_model=MODEL_DIM,
 
 optimizer = torch.optim.AdamW(
         transformer.parameters(),
-        lr=0.001,
-        weight_decay=0.01,
+        lr=0.003,
+        weight_decay=0.001,
         betas=(0.9, 0.98),
         eps=1e-9
     )
