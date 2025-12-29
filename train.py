@@ -10,7 +10,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 DIM = 97
 BATCH_SIZE = 16
 MODEL_DIM = 128
-VOCAB = 125
+VOCAB = 98
 D_FF = 512
 DROPOUT = 0.1
 NUM_HEAD = 4
