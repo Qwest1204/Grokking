@@ -197,7 +197,7 @@ def compute_gradient_norm(model):
 
 def train_with_logging(transformer, dataloader_train, dataloader_test,
                        optimizer, criterion, num_epochs=100, device='cuda',
-                       log_loss_landscape_every=10, loss_landscape_steps=25):
+                       log_loss_landscape_every=10, loss_landscape_steps=55):
     writer = setup_tensorboard()
 
     def log_model_weights(model, step):
@@ -225,7 +225,7 @@ def train_with_logging(transformer, dataloader_train, dataloader_test,
             # Вычисляем лосс-ландшафт
             X, Y, Z = compute_loss_landscape(
                 transformer, criterion, dataloader_train,
-                device, steps=loss_landscape_steps, range_scale=10.0
+                device, steps=loss_landscape_steps, range_scale=100.0
             )
 
             # Создаем визуализации
