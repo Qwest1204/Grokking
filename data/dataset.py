@@ -22,7 +22,7 @@ class ModularAdditionDataset(Dataset):
         self.y_coords = torch.arange(p).repeat_interleave(p)  # [0,0,...,0, 1,1,...,1, ...]
 
         # Вычисляем результаты
-        self.results = (self.x_coords + self.y_coords) % p
+        self.results = (self.x_coords * self.y_coords + self.x_coords + self.y_coords) % p
 
     def __len__(self):
         return self.p * self.p
