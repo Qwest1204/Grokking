@@ -22,11 +22,11 @@ class GrokkingTransformer(nn.Module):
     def forward(self, x):
         x = self.embedding(x)
         x = self.pe(x)
-        x, att = self.mha(x, x, x)
-        x = x + self.dropout(x)
+        mha_out, att = self.mha(x, x, x)
+        x = x + self.dropout(mha_out)
         x = self.norm1(x)
-        x = self.mlp(x)
-        x = x + self.dropout(x)
+        mlp_out = self.mlp(x)
+        x = x + self.dropout(mlp_out)
         x = self.norm2(x)
         x_proj = self.projection(x)
         logits = x_proj[:, -1, :]
