@@ -17,7 +17,7 @@ NUM_HEAD = 4
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 dataset = ModularAdditionDataset(DIM)
-train, test = torch.utils.data.random_split(dataset, [3000, 6409])
+train, test = torch.utils.data.random_split(dataset, [2000, 7409])
 dataloader_train = DataLoader(train, batch_size=BATCH_SIZE, shuffle=True)
 dataloader_test = DataLoader(test, batch_size=BATCH_SIZE, shuffle=True)
 
