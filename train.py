@@ -17,7 +17,7 @@ NUM_HEAD = 4
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 dataset = ModularAdditionDataset(DIM)
-train, test = torch.utils.data.random_split(dataset, [5000, 4409])
+train, test = torch.utils.data.random_split(dataset, [1000, 8409])
 dataloader_train = DataLoader(train, batch_size=BATCH_SIZE, shuffle=True)
 dataloader_test = DataLoader(test, batch_size=BATCH_SIZE, shuffle=True)
 
@@ -167,3 +167,5 @@ trained_model = train_with_logging(
         num_epochs=100,
         device=DEVICE
     )
+
+torch.save(trained_model.state_dict(), 'grokking_model.pth')
