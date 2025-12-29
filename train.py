@@ -59,7 +59,7 @@ def setup_tensorboard():
 
 
 def compute_loss_landscape(model, criterion, dataloader, device,
-                           steps=20, range_scale=0.1):
+                           steps=20, range_scale=1):
     """
     Вычисляет лосс-ландшафт вокруг текущих параметров модели
     """
@@ -140,7 +140,7 @@ def plot_loss_landscape_3d(X, Y, Z):
 
     # Преобразуем в изображение для TensorBoard
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', dpi=150, bbox_inches='tight')
+    plt.savefig(buf, format='png', dpi=300, bbox_inches='tight')
     plt.close(fig)
     buf.seek(0)
 
@@ -173,7 +173,7 @@ def plot_loss_landscape_2d(X, Y, Z):
 
     # Преобразуем в изображение для TensorBoard
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', dpi=150, bbox_inches='tight')
+    plt.savefig(buf, format='png', dpi=300, bbox_inches='tight')
     plt.close(fig)
     buf.seek(0)
 
@@ -197,7 +197,7 @@ def compute_gradient_norm(model):
 
 def train_with_logging(transformer, dataloader_train, dataloader_test,
                        optimizer, criterion, num_epochs=100, device='cuda',
-                       log_loss_landscape_every=10, loss_landscape_steps=15):
+                       log_loss_landscape_every=10, loss_landscape_steps=25):
     writer = setup_tensorboard()
 
     def log_model_weights(model, step):
@@ -225,7 +225,7 @@ def train_with_logging(transformer, dataloader_train, dataloader_test,
             # Вычисляем лосс-ландшафт
             X, Y, Z = compute_loss_landscape(
                 transformer, criterion, dataloader_train,
-                device, steps=loss_landscape_steps, range_scale=0.1
+                device, steps=loss_landscape_steps, range_scale=1.0
             )
 
             # Создаем визуализации
